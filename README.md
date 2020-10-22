@@ -1,7 +1,4 @@
-# The emoji piano d'Alan AKRA - LP DW
-
-Les consignes sont dans le wiki.
-
+# Alan AKRA's emoji piano - LP DW
 
 ## Installation
 ```
