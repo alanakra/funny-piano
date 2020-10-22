@@ -1,6 +1,6 @@
 <template>
  <div class="emoji">
-  
+   <img id="imgGif">
  </div>
 </template>
 
@@ -8,7 +8,6 @@
  .emoji{
   height: 200px;
   width: 200px;
-  background-color: royalblue;
   }
 </style>
 
@@ -19,9 +18,11 @@ export default {
     
     const callEmoji = async () => {
      const gf = new GiphyFetch('hoc7Xw81iwUP2iewXhekupQznVmYDlHK')
-     const { data: gifs } = await gf.emoji({ limit: 1 })
-     const image = gifs[0].embed_url
-     console.log(image)
+     const { data: gifs } = await gf.emoji();
+     const random = Math.floor(Math.random() * 26);
+     const gif = gifs[random].images.downsized.url
+     const image = document.getElementById('imgGif');
+     image.setAttribute('src', gif);
    }
 
     callEmoji()
