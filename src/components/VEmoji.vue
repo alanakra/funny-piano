@@ -1,6 +1,6 @@
 <template>
  <div class="emoji">
-   <img id="imgGif">
+   <img id="imgGif" :src="src" v-if="src"/>
  </div>
 </template>
 
@@ -13,19 +13,29 @@
 
 <script>
   import { GiphyFetch } from '@giphy/js-fetch-api'
-export default {
-  mounted(){
-    
-    const callEmoji = async () => {
+
+  export default {
+   mounted(){
+  },
+
+  data(){
+    return {
+      src: null
+    }
+  },
+
+  methods: {
+     async callEmoji () {
      const gf = new GiphyFetch('hoc7Xw81iwUP2iewXhekupQznVmYDlHK')
      const { data: gifs } = await gf.emoji();
-     const random = Math.floor(Math.random() * 26);
+     const random = Math.floor(Math.random() * 24);
      const gif = gifs[random].images.downsized.url
-     const image = document.getElementById('imgGif');
-     image.setAttribute('src', gif);
+
+    this.src = gif
    }
 
-    callEmoji()
   }
+    
+  
 }
 </script>

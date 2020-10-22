@@ -1,20 +1,10 @@
 <template>
 <div class="all">
  <div class="container-piano">
-  <div class="bg-white" id="key-do"></div>
-  <div class="bg-white" id="key-re"></div>
-  <div class="bg-white" id="key-mi"></div>
-  <div class="bg-white" id="key-fa"></div>
-  <div class="bg-white" id="key-sol"></div>
-  <div class="bg-white" id="key-la"></div>
-  <div class="bg-white" id="key-si"></div>
+  <div class="bg-white" v-for="note in white" :key="`key${note.name}`" :id="`key${note.name}`" @click="launchNote(note)" :data-keycode="note.keyCode"></div>
 
   <div class="container-bg-black">
-   <div class="bg-black" id="A-b"></div>
-   <div class="bg-black" id="B-b"></div>
-   <div class="bg-black" id="C-b"></div>
-   <div class="bg-black" id="D-b"></div>
-   <div class="bg-black" id="E-b"></div>
+   <div class="bg-black" v-for="note in black" :key="`key${note.name}`" :id="`key${note.name}`" @click="launchNote(note)" :data-keycode="note.keyCode"></div>
   </div>
 
  </div>
@@ -136,93 +126,98 @@
 
 <script>
 export default {
+  data(){
+    return{
+      white : [
+        {
+          name :'do',
+          sound : 'C',
+          keyCode: 81
+        },
+        {
+          name :'re',
+          sound : 'D',
+          keyCode: 83
+        },
+        {
+          name :'mi',
+          sound : 'E',
+          keyCode: 68
+        },
+        {
+          name :'fa',
+          sound: 'F',
+          keyCode: 70
+        },
+        {
+          name: 'sol',
+          sound: 'G',
+          keyCode: 71
+        },
+        {
+          name: 'la',
+          sound: 'A',
+          keyCode: 72
+        },
+        {
+          name: 'si',
+          sound: 'B',
+          keyCode: 74
+        }
+      ],
+      black: [
+        {
+          name:'do#',
+          sound: 'C#',
+          keyCode: 90
+        },
+        {
+          name: 're#',
+          sound: 'D#',
+          keyCode: 69
+        },
+        {
+          name :'fa#',
+          sound: 'F#',
+          keyCode: 84
+        },
+        {
+          name: 'sol#',
+          sound: 'G#',
+          keyCode: 89
+        },
+        {
+          name: 'la#',
+          sound: 'A',
+          keyCode: 85
+        },
+      ],
+    }
+  },
+
   mounted(){
 
-    const keyDo = document.querySelector('#key-do')
-    const keyRe = document.querySelector('#key-re')
-    const keyMi = document.querySelector('#key-mi')
-    const keyFa = document.querySelector('#key-fa')
-    const keySol = document.querySelector('#key-sol')
-    const keyLa = document.querySelector('#key-la')
-    const keySi = document.querySelector('#key-si')
-    const bemol1 = document.querySelector('#A-b')
-    const bemol2 = document.querySelector('#B-b')
-    const bemol3 = document.querySelector('#C-b')
-    const bemol4 = document.querySelector('#D-b')
-    const bemol5 = document.querySelector('#E-b')
-    
-    keyDo.addEventListener('click', () =>{
-      const audio = document.createElement('audio')
-      audio.src = 'assets/sounds/C.mp3'
-      audio.play()
-    })
+     console.log(this)
+     this.vEmoji = this.$parent.$children[1]
+     this.audio = document.createElement('audio')
+     document.addEventListener('keydown', (e) => {
+       console.log(e.keyCode)
+       const el = this.$el.querySelector(`[data-keycode="${e.keyCode}"`)
+       console.log(el)
+       if(el){
+         el.click();
+       }
+     })
+  },
 
-    keyRe.addEventListener('click', () =>{
-      const audio = document.createElement('audio')
-      audio.src = 'assets/sounds/D.mp3'
-      audio.play()
-    })
-
-    keyMi.addEventListener('click', () =>{
-      const audio = document.createElement('audio')
-      audio.src = 'assets/sounds/E.mp3'
-      audio.play()
-    })
-    
-    keyFa.addEventListener('click', () =>{  
-      const audio = document.createElement('audio')
-      audio.src = 'assets/sounds/F.mp3'
-      audio.play()
-    })
-
-    keySol.addEventListener('click', () =>{  
-      const audio = document.createElement('audio')
-      audio.src = 'assets/sounds/G.mp3'
-      audio.play()
-    })
-
-    keyLa.addEventListener('click', () =>{  
-      const audio = document.createElement('audio')
-      audio.src = 'assets/sounds/A.mp3'
-      audio.play()
-    })
-
-    keySi.addEventListener('click', () =>{  
-      const audio = document.createElement('audio')
-      audio.src = 'assets/sounds/B.mp3'
-      audio.play()
-    })
-
-    bemol1.addEventListener('click', () =>{
-      const audio = document.createElement('audio')
-      audio.src = encodeURIComponent('assets/sounds/C#.mp3')
-      audio.play()
-    })
-
-    bemol2.addEventListener('click', () =>{
-      const audio = document.createElement('audio')
-      audio.src = encodeURIComponent('assets/sounds/D#.mp3')
-      audio.play()
-    })
-
-    bemol3.addEventListener('click', () =>{
-      const audio = document.createElement('audio')
-      audio.src = encodeURIComponent('assets/sounds/F#.mp3')
-      audio.play()
-    })
-
-    bemol4.addEventListener('click', () =>{
-      const audio = document.createElement('audio')
-      audio.src = encodeURIComponent('assets/sounds/G#.mp3')
-      audio.play()
-    })
-
-    bemol5.addEventListener('click', () =>{
-      const audio = document.createElement('audio')
-      audio.src = encodeURIComponent('assets/sounds/A#.mp3')
-      audio.play()
-    })
-
+   methods: {
+    launchNote(note){
+      console.log(note)
+      const name = encodeURIComponent(note.sound)
+      this.audio.src = `/assets/sounds/${name}.mp3`
+      this.audio.play();
+      this.vEmoji.callEmoji()
+    }
   }
 }
 
