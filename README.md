@@ -1,4 +1,4 @@
-# The emoji piano
+# The emoji piano d'Alan AKRA - LP DW
 
 Les consignes sont dans le wiki.
 
